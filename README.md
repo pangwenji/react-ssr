@@ -20,17 +20,39 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-## Learn More
 
-To learn more about Next.js, take a look at the following resources:
-
--   [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
--   [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
 ## Deploy on Vercel
+  5. 构建与运行
+构建镜像：
+bash
+复制代码
+docker build -t my-node-app .
+这条命令将当前目录下的 Dockerfile 进行构建，并命名镜像为 my-node-app。
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+运行容器：
+bash
+复制代码
+docker run -p 3000:3000 my-node-app
+这条命令运行容器，并将容器的 3000 端口映射到宿主机的 3000 端口。
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+6. 多阶段构建
+如果你的应用需要进行构建，并且不希望将构建工具和依赖带入最终的镜像中，可以使用多阶段构建：
+
+dockerfile
+复制代码
+# 第一阶段：构建阶段
+FROM node:14 AS builder
+
+WORKDIR /usr/src/app
+COPY package*.json ./
+RUN npm install
+COPY . .
+RUN npm run build
+
+# 第二阶段：生产镜像
+FROM nginx:alpine
+
+COPY --from=builder /usr/src/app/build /usr/share/nginx/html
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
