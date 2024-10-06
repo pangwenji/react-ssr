@@ -14,12 +14,16 @@ pnpm dev
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+  "dev": "concurrently \"next dev\" \"node server.js\"",
+        "build": "next build",
+        "start": " NODE_ENV=production node server.js",
+        "lint": "next lint",
+        "format": "prettier --write ."
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
+    1、npx next dev     启动在开发环境
+    2、npx next  build  --profile 打包    使用--profile 前提首要是 浏览器要装有 React 插件 （React Developer Tools） 主要
+    是看 react 组建在浏览器渲染性能分析
+    
 
 
 ## Deploy on Vercel
