@@ -1,4 +1,5 @@
 /** @type {import('next').NextConfig} */
+import routes from './router.js'; // 确保路径正确
 const nextConfig = {
     reactStrictMode: true, // 启用 React 严格模式
     swcMinify: true, // 使用 SWC 进行 JavaScript 和 TypeScript 的压缩
@@ -31,14 +32,9 @@ const nextConfig = {
     //         },
     //     ];
     // },
-    // async rewrites() {
-    //     return [
-    //         {
-    //             source: '/api/:path*',
-    //             destination: 'https://external-api.com/:path*', // 代理请求
-    //         },
-    //     ];
-    // },
+    async rewrites() {
+        return routes
+    },
 };
 
 export default nextConfig;
