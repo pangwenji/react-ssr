@@ -3,7 +3,9 @@ import localFont from 'next/font/local';
 import React from 'react';
 import './globals.css';
 import Link from 'next/link';
-
+import 'antd/dist/antd.css';
+import '../styles/globals.scss'; // 其他全局样式
+import { ConfigProvider } from 'antd';
 const geistSans = localFont({
     src: './fonts/GeistVF.woff',
     variable: '--font-geist-sans',
@@ -31,11 +33,15 @@ export default function RootLayout({
             <body
                 className={`${geistSans.variable} ${geistMono.variable} antialiased`}
             >
-                 {/* <nav className="flex items-center justify-center gap-10 text-blue-600">
-                  <Link href="/about">About</Link>
-                  <Link href="/settings">Settings</Link>
-               </nav> */}
-                {children}
+                <ConfigProvider
+                   theme={{
+                    token: {
+                        colorPrimary: '#1890ff', // 自定义主题色
+                    },
+                   }}
+                >
+                  {children}
+                </ConfigProvider>
             </body>
         </html>
     );
